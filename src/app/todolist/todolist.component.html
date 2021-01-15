@@ -1,0 +1,59 @@
+<p-dialog *ngIf="displayDialog" [(visible)]="displayDialog"
+          modal="true"
+          showHeader="false"
+>
+  {{displayMessage | reverse}}
+</p-dialog>
+
+<p-table #todoTable
+         [value]="todoList"
+         dataKey="id"
+         styleClass="p-datatable-gridlines"
+         [paginator]="true"
+         [rows]="10" [showCurrentPageReport]="true"
+         [rowHover]="true"
+         [filterDelay]="0" [globalFilterFields]="['title']"
+         selectionMode="multiple"
+         >
+
+  <ng-template pTemplate="caption">
+    <div class="table-header">
+      Todo List
+      <span class="p-input-icon-right">
+                <i class="pi pi-search"></i>
+                <input pInputText type="text" (input)="todoTable.filterGlobal($event.target.value, 'contains')" placeholder="search.." />
+            </span>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="header" let-columns>
+    <tr>
+      <th *ngFor="let col of cols" [pSortableColumn]=col.field >
+        {{col.header}}
+        <p-sortIcon [field]=col.field></p-sortIcon>
+      </th>
+    </tr>
+
+  </ng-template>
+  <ng-template pTemplate="body" let-todo>
+    <tr
+      (click)="onRowClick(todo)"
+      [ngClass]="{'row-completed': todo.completed}"
+    >
+      <td *ngFor="let col of cols">
+        <div  *ngIf="col.field === 'completed'; else otherFields">
+              <div *ngIf="todo.completed; else notCompleted">
+                <i class="pi pi-check green"></i>
+              </div>
+              <ng-template #notCompleted>
+                  <div></div>
+              </ng-template>
+          </div>
+          <ng-template #otherFields>
+            {{todo[col.field]}}
+          </ng-template>
+      </td>
+
+    </tr>
+  </ng-template>
+</p-table>
+

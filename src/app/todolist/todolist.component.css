@@ -1,0 +1,9 @@
+.row-completed {
+  background-color: rgba(0, 0, 0, 0.15) !important;
+}
+
+.pi.pi-check.green{
+  color: green;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
